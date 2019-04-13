@@ -52,6 +52,8 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
         }
     }
 
+
+
     @Override
     public void onMapReady(GoogleMap googleMap){
 
@@ -61,7 +63,7 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
 
         googleMap.addMarker(new MarkerOptions().position(new LatLng(40.689247, -74.044502)).title("Statue of Liberty").snippet("I hope you go there one day"));
 
-        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(40.689247, -74.044502)).zoom(1).bearing(0).tilt(45).build();
+        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(40.689247, -74.044502)).zoom(3).bearing(0).tilt(45).build();
 
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
 

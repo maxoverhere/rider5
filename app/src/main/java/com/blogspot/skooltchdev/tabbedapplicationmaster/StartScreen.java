@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -19,6 +20,7 @@ import java.util.List;
 public class StartScreen extends AppCompatActivity {
 
     FirstFragment mapStuff;
+    private int editText;
 
 
     @Override
@@ -36,6 +38,8 @@ public class StartScreen extends AppCompatActivity {
     }
 
     public  void switchScreen(View view){
+        EditText thing = (EditText) findViewById(editText);
+
         Intent intent =new Intent(getBaseContext(), RouteActivity.class);
         startActivity(intent);
     }
