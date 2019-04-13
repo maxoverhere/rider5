@@ -21,6 +21,7 @@ public class StartScreen extends AppCompatActivity {
 
     FirstFragment mapStuff;
     private int editText;
+    ViewPager buttonsView;
 
 
     @Override
@@ -29,54 +30,73 @@ public class StartScreen extends AppCompatActivity {
         setContentView(R.layout.activity_start_screen);
 
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        ViewPager mapView = (ViewPager) findViewById(R.id.viewpager);
+        setupViewMap(mapView);
 
-        LatLng sydney = new LatLng(-33.852, 151.211);
-//        mapStuff.mGoogleMap.addMarker(new MarkerOptions().position(sydney)
-//                .title("Marker in Sydney"));
+        ViewPager buttonsView = (ViewPager) findViewById(R.id.viewButtons);
+        setupViewButtons(buttonsView);
     }
 
-    public  void switchScreen(View view){
-        EditText thing = (EditText) findViewById(editText);
+    public  void switchTooSecond(String str){
 
-        Intent intent =new Intent(getBaseContext(), RouteActivity.class);
-        startActivity(intent);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        mapStuff = new FirstFragment();
-        adapter.addFragment(mapStuff, "First");
-        viewPager.setAdapter(adapter);
+    private void setupViewButtons(ViewPager viewButtons) {
+        ViewButtonsAdapter adapter = new ViewButtonsAdapter(getSupportFragmentManager());
+        adapter.addFragment(new BlankFragment(), "First");
+        adapter.addFragment(new GoToFromScreen(), "Second");
+        viewButtons.setAdapter(adapter);
     }
 
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewButtonsAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
-
-
-
-        public ViewPagerAdapter(FragmentManager manager) {
+        public ViewButtonsAdapter(FragmentManager manager) {
             super(manager);
         }
-
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);
         }
-
         @Override
         public int getCount() {
             return mFragmentList.size();
         }
-
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
 
+    private void setupViewMap(ViewPager viewMap) {
+        ViewMapAdapter adapter = new ViewMapAdapter(getSupportFragmentManager());
+        mapStuff = new FirstFragment();
+        adapter.addFragment(mapStuff, "First");
+        viewMap.setAdapter(adapter);
+    }
+
+    class ViewMapAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+        public ViewMapAdapter(FragmentManager manager) {
+            super(manager);
+        }
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);

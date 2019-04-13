@@ -11,6 +11,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -63,7 +64,7 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
 
         googleMap.addMarker(new MarkerOptions().position(new LatLng(40.689247, -74.044502)).title("Statue of Liberty").snippet("I hope you go there one day"));
 
-        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(40.689247, -74.044502)).zoom(3).bearing(0).tilt(45).build();
+        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(40.689247, -74.044502)).zoom(1).bearing(0).tilt(45).build();
 
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
 
@@ -71,7 +72,7 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
         LatLng sydney = new LatLng(-33.852, 151.211);
 
         mGoogleMap.addMarker(new MarkerOptions().position(sydney)
-                .title("Marker in Sydney"));
+                .title("Marker in Sydney").icon(BitmapDescriptorFactory.fromResource(R.drawable.red_dot)));
 
     }
 }
