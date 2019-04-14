@@ -1,19 +1,15 @@
 package com.blogspot.skooltchdev.tabbedapplicationmaster;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +18,20 @@ import java.util.List;
 public class StartScreen extends AppCompatActivity {
 
     FirstFragment mapStuff;
-    private int editText;
-    ViewPager buttonsView;
-//    ViewButtonsAdapter theAdapter;
+    int status;
+
+
+    private static String stringMod(String in){
+        StringBuffer s = new StringBuffer();
+
+        for(int i = 0; i < in.length(); i++){
+            if(in.charAt(i) != ' ')
+                s.append(in.charAt(i));
+            else
+                s.append('+');
+        }
+        return s.toString();
+    }
 
 
 
@@ -32,27 +39,39 @@ public class StartScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
-
-
         ViewPager mapView = (ViewPager) findViewById(R.id.viewpager);
         setupViewMap(mapView);
+        status = 0;
 
-//        buttonsView = (ViewPager) findViewById(R.id.viewButtons);
-//        setupViewButtons(buttonsView);
     }
 
     public void switchToo2(View view){
         EditText firstEditText =(EditText) findViewById(R.id.firstEditText);
-        Button firstButton = (Button) findViewById(R.id.firstButton);
-        firstButton.setVisibility(View.INVISIBLE);
-        firstEditText.setVisibility(View.INVISIBLE);
-        Button secondButton = (Button) findViewById(R.id.secondButton);
-        EditText secondBottom =(EditText) findViewById(R.id.secondBottom);
-        EditText secondTop =(EditText) findViewById(R.id.secondTop);
-        secondTop.setVisibility(View.VISIBLE);
-        secondBottom.setVisibility(View.VISIBLE);
-        secondButton.setVisibility(View.VISIBLE);
+
+        if(firstEditText.getText().toString().equals("")){
+            Toast.makeText(StartScreen.this, "Please type a destination", Toast.LENGTH_LONG).show();
+        }
+        else {
+            final String destination = firstEditText.getText().toString();
+            Button firstButton = (Button) findViewById(R.id.firstButton);
+            firstButton.setVisibility(View.INVISIBLE);
+            firstEditText.setVisibility(View.INVISIBLE);
+            Button secondButton = (Button) findViewById(R.id.secondButton);
+            EditText secondBottom = (EditText) findViewById(R.id.secondBottom);
+            EditText secondTop = (EditText) findViewById(R.id.secondTop);
+            secondTop.setVisibility(View.VISIBLE);
+            secondBottom.setVisibility(View.VISIBLE);
+            secondButton.setVisibility(View.VISIBLE);
+            status = 1;
+//            mapStuff.onMapReady(mapStuff.mGoogleMap);
+            ViewPager mapView = (ViewPager) findViewById(R.id.viewpager);
+            setupViewMap(mapView);
+            secondBottom.setText(firstEditText.getText().toString());
+            secondTop.setText("your location");
+        }
+
     }
+
 
     public void switchToo3(View view){
         Button secondButton = (Button) findViewById(R.id.secondButton);
@@ -74,48 +93,35 @@ public class StartScreen extends AppCompatActivity {
         expenciveButton.setVisibility(View.VISIBLE);
     }
 
-//    public  void switchTooSecond(View view){
-////        EditText thing = (EditText) findViewById(R.id.editText);
-////        (thing.getText().toString());
-//        theAdapter.addFragment(new GoToFromScreen(), "Second");
-//        buttonsView.setCurrentItem(1);
-//
-//    }
-//
-//    private void setupViewButtons(ViewPager viewButtons) {
-//        ViewButtonsAdapter theAdapter = new ViewButtonsAdapter(getSupportFragmentManager());
-//        theAdapter.addFragment(new BlankFragment(), "First");
-//        viewButtons.setAdapter(theAdapter);
-//    }
-//
-//    class ViewButtonsAdapter extends FragmentPagerAdapter {
-//        private final List<Fragment> mFragmentList = new ArrayList<>();
-//        private final List<String> mFragmentTitleList = new ArrayList<>();
-//        public ViewButtonsAdapter(FragmentManager manager) {
-//            super(manager);
-//        }
-//        @Override
-//        public Fragment getItem(int position) {
-//            return mFragmentList.get(position);
-//        }
-//        @Override
-//        public int getCount() {
-//            return mFragmentList.size();
-//        }
-//        public void addFragment(Fragment fragment, String title) {
-//            mFragmentList.add(fragment);
-//            mFragmentTitleList.add(title);
-//        }
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            return mFragmentTitleList.get(position);
-//        }
-//    }
+    public void switchToo5(View view){
+        Button cheapButton = (Button) findViewById(R.id.cheapButton);
+        Button expenciveButton = (Button) findViewById(R.id.expenciveButton);
+
+        cheapButton.setVisibility(View.INVISIBLE);
+        expenciveButton.setVisibility(View.INVISIBLE);
+
+        Button payPalButton = (Button) findViewById(R.id.payPalButton);
+
+        payPalButton.setVisibility(View.VISIBLE);
+    }
+
+    public void switchToo6(View view){
+        Button payPalButton = (Button) findViewById(R.id.payPalButton);
+
+        payPalButton.setVisibility(View.INVISIBLE);
+
+        switchToo7(view);
+    }
+
+    public void switchToo7(View view){
+        status = 2;
+    }
 
     private void setupViewMap(ViewPager viewMap) {
         ViewMapAdapter adapter = new ViewMapAdapter(getSupportFragmentManager());
         mapStuff = new FirstFragment();
         adapter.addFragment(mapStuff, "First");
+        mapStuff.setStartScreen(this);
         viewMap.setAdapter(adapter);
     }
 

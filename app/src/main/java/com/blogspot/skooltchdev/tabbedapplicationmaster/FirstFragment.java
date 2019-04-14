@@ -22,6 +22,7 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
     GoogleMap mGoogleMap;
     MapView mMapView;
     View mView;
+    StartScreen startScreen;
 
     public FirstFragment() {
         // Required empty public constructor
@@ -31,6 +32,11 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+    }
+
+    public void setStartScreen(StartScreen startScreen){
+        this.startScreen = startScreen;
     }
 
     @Override
@@ -57,23 +63,33 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
 
     @Override
     public void onMapReady(GoogleMap googleMap){
+        if (startScreen.status == 0) {
+            MapsInitializer.initialize(getContext());
+            mGoogleMap = googleMap;
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        MapsInitializer.initialize(getContext());
-        mGoogleMap = googleMap;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(50.109430, 14.451412)).title("Plus Prague").snippet("Hostel you can sleep in"));
 
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(50.109430, 14.451412)).title("Plus Prague").snippet("Hostel you can sleep in"));
+            LatLng userCoord = new LatLng(50.087000, 14.420289);
+            CameraPosition userLocation = CameraPosition.builder().target(userCoord).zoom(16).bearing(0).tilt(0).build();
 
-        LatLng userCoord = new LatLng(50.107004, 14.454212);
-        CameraPosition userLocation = CameraPosition.builder().target(userCoord).zoom(16).bearing(0).tilt(0).build();
+            mGoogleMap.addMarker(new MarkerOptions().position(userCoord).title("You").icon(BitmapDescriptorFactory.fromResource(R.drawable.red_dot)));
 
-        mGoogleMap.addMarker(new MarkerOptions().position(userCoord).title("You").icon(BitmapDescriptorFactory.fromResource(R.drawable.red_dot)));
-
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(userLocation));
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(userLocation));
 
 
-        LatLng prague = new LatLng(50.089820, 14.438022);
+            LatLng prague = new LatLng(50.089820, 14.438022);
 
-        mGoogleMap.addMarker(new MarkerOptions().position(prague).title("Marker in prague"));
+            mGoogleMap.addMarker(new MarkerOptions().position(prague).title("Marker in prague"));
+        }
+        else if(startScreen.status == 1){
+            LatLng userCoord = new LatLng(50.087000, 14.420289);
+            googleMap.addMarker(new MarkerOptions().position(userCoord).title("You").icon(BitmapDescriptorFactory.fromResource(R.drawable.red_dot)));
+
+            LatLng focus = new LatLng(50.109401, 14.451265);
+            CameraPosition userLocation = CameraPosition.builder().target(focus).zoom(12).bearing(0).tilt(0).build();
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(userLocation));
+            googleMap.addMarker(new MarkerOptions().position(focus).title("You").icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_dot)));
+        }
     }
 }
