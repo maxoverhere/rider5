@@ -15,9 +15,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 
-public class FirstFragment extends Fragment implements OnMapReadyCallback{
+public class FirstFragment extends Fragment implements OnMapReadyCallback {
 
     GoogleMap mGoogleMap;
     MapView mMapView;
@@ -35,7 +36,7 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
 
     }
 
-    public void setStartScreen(StartScreen startScreen){
+    public void setStartScreen(StartScreen startScreen) {
         this.startScreen = startScreen;
     }
 
@@ -43,12 +44,12 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView =  inflater.inflate(R.layout.first_fragment, container, false);
+        mView = inflater.inflate(R.layout.first_fragment, container, false);
         return mView;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mMapView = (MapView) mView.findViewById(R.id.map);
@@ -60,9 +61,8 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
     }
 
 
-
     @Override
-    public void onMapReady(GoogleMap googleMap){
+    public void onMapReady(GoogleMap googleMap) {
         if (startScreen.status == 0) {
             MapsInitializer.initialize(getContext());
             mGoogleMap = googleMap;
@@ -81,8 +81,7 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
             LatLng prague = new LatLng(50.089820, 14.438022);
 
             mGoogleMap.addMarker(new MarkerOptions().position(prague).title("Marker in prague"));
-        }
-        else if(startScreen.status == 1){
+        } else if (startScreen.status == 1) {
             LatLng userCoord = new LatLng(50.087000, 14.420289);
             googleMap.addMarker(new MarkerOptions().position(userCoord).title("You").icon(BitmapDescriptorFactory.fromResource(R.drawable.red_dot)));
 
@@ -90,6 +89,30 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
             CameraPosition userLocation = CameraPosition.builder().target(focus).zoom(12).bearing(0).tilt(0).build();
             googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(userLocation));
             googleMap.addMarker(new MarkerOptions().position(focus).title("You").icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_dot)));
+        } else if (startScreen.status == 2) {
+            LatLng userCoord = new LatLng(50.087000, 14.420289);
+            googleMap.addMarker(new MarkerOptions().position(userCoord).title("You").icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_dot)));
+
+            LatLng focus = new LatLng(50.109401, 14.451265);
+            CameraPosition userLocation = CameraPosition.builder().target(focus).zoom(12).bearing(0).tilt(0).build();
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(userLocation));
+            googleMap.addMarker(new MarkerOptions().position(focus).title("endgoal"));
+
+            LatLng aCar = new LatLng(50.093014, 14.439070);
+            googleMap.addMarker(new MarkerOptions().position(aCar).title("aCar").icon(BitmapDescriptorFactory.fromResource(R.drawable.purple)));
+            addStuff(googleMap,userCoord,aCar);
+            addStuff(googleMap,focus,aCar);
         }
+    }
+
+    void addStuff(GoogleMap googleMap, LatLng userCoord, LatLng focus ) {
+        ConnectionTest myJson = new ConnectionTest(userCoord.latitude,userCoord.longitude,focus.latitude,focus.longitude);
+        PolylineOptions plo = new PolylineOptions().clickable(true).add();
+        String[] myStuff = myJson.myJson.substring(42).split("\\]\\]\\,\\\"")[0].split("\\],\\[");
+        for (String cord : myStuff) {
+            String temp[] = cord.split(",");
+            plo.add(new LatLng(Double.parseDouble(temp[1]), Double.parseDouble(temp[0])));
+        }
+        googleMap.addPolyline(plo);
     }
 }

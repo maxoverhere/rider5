@@ -140,7 +140,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/paypal_screen"
         android:fontFamily="serif-monospace"
-        android:onClick="switchToo3"
+        android:onClick="switchToo6"
         android:textStyle="bold"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"

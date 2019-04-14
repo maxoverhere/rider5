@@ -1,4 +1,5 @@
 package com.blogspot.skooltchdev.tabbedapplicationmaster;
+
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -7,7 +8,9 @@ import java.util.Scanner;
 
 public class ConnectionTest {
 
-    public static String readStringFromURL(String requestURL) throws IOException
+    String myJson;
+
+    public String readStringFromURL(String requestURL) throws IOException
     {
         try (Scanner scanner = new Scanner(new URL(requestURL).openStream(),
                 StandardCharsets.UTF_8.toString()))
@@ -17,20 +20,18 @@ public class ConnectionTest {
         }
     }
 
-    static double lat_start = 50.087000;
-    static double lon_start = 14.420289;
-    static double lat_end = 50.109401;
-    static double lon_end = 14.451265;
+//    static double lat_start = 50.087000;
+//    static double lon_start = 14.420289;
+//    static double lat_end = 50.109401;
+//    static double lon_end = 14.451265;
 
-    public static void main(String[] args){
+    public ConnectionTest(double lat_start, double lon_start,double lat_end,double lon_end){
         String url = "https://api.openrouteservice.org/directions?api_key=5b3ce3597851110001cf6248e16c403c7197425e868a3aacbab4a87f&coordinates=" + lon_start + "%2C%20" + lat_start + "%7C" + lon_end + "%2C%20" + lat_end + "&profile=driving-car&format=geojson&fbclid=IwAR2oxt23nAl_c_k-8fjc412YBCElx7uAt-h-hTVUZCc3hq5nx5TIk9vBWvg";
-        String strJson = "";
+        myJson = "";
         try {
-            strJson = readStringFromURL(url);
+            myJson = readStringFromURL(url);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        System.out.println(strJson);
     }
 }

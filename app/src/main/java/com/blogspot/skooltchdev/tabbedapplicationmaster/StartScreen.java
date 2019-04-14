@@ -1,6 +1,7 @@
 package com.blogspot.skooltchdev.tabbedapplicationmaster;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -37,6 +38,8 @@ public class StartScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
         ViewPager mapView = (ViewPager) findViewById(R.id.viewpager);
@@ -115,6 +118,8 @@ public class StartScreen extends AppCompatActivity {
 
     public void switchToo7(View view){
         status = 2;
+        ViewPager mapView = (ViewPager) findViewById(R.id.viewpager);
+        setupViewMap(mapView);
     }
 
     private void setupViewMap(ViewPager viewMap) {
