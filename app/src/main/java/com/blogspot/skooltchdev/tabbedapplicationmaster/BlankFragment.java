@@ -19,10 +19,12 @@ public class BlankFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public  void switchScreen(View view){
-        EditText thing = (EditText) getView().findViewById(R.id.editText);
-        ((StartScreen)getActivity()).switchTooSecond(thing.getText().toString());
-    }
+//    public  void newSwitchScreen(View view){
+//        EditText thing = (EditText) getView().findViewById(R.id.editText);
+//        ((StartScreen)getActivity()).switchTooSecond(thing.getText().toString());
+//
+//
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -62,17 +62,18 @@ public class FirstFragment extends Fragment implements OnMapReadyCallback{
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(40.689247, -74.044502)).title("Statue of Liberty").snippet("I hope you go there one day"));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(50.109430, 14.451412)).title("Plus Prague").snippet("Hostel you can sleep in"));
 
-        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(40.689247, -74.044502)).zoom(1).bearing(0).tilt(45).build();
+        LatLng userCoord = new LatLng(50.107004, 14.454212);
+        CameraPosition userLocation = CameraPosition.builder().target(userCoord).zoom(16).bearing(0).tilt(0).build();
 
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
+        mGoogleMap.addMarker(new MarkerOptions().position(userCoord).title("You").icon(BitmapDescriptorFactory.fromResource(R.drawable.red_dot)));
+
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(userLocation));
 
 
-        LatLng sydney = new LatLng(-33.852, 151.211);
+        LatLng prague = new LatLng(50.089820, 14.438022);
 
-        mGoogleMap.addMarker(new MarkerOptions().position(sydney)
-                .title("Marker in Sydney").icon(BitmapDescriptorFactory.fromResource(R.drawable.red_dot)));
-
+        mGoogleMap.addMarker(new MarkerOptions().position(prague).title("Marker in prague"));
     }
 }
