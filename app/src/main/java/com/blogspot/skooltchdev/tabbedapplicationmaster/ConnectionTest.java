@@ -20,11 +20,9 @@ public class ConnectionTest {
         }
     }
 
-//    static double lat_start = 50.087000;
-//    static double lon_start = 14.420289;
-//    static double lat_end = 50.109401;
-//    static double lon_end = 14.451265;
+    public ConnectionTest(){
 
+    }
     public ConnectionTest(double lat_start, double lon_start,double lat_end,double lon_end){
         String url = "https://api.openrouteservice.org/directions?api_key=5b3ce3597851110001cf6248e16c403c7197425e868a3aacbab4a87f&coordinates=" + lon_start + "%2C%20" + lat_start + "%7C" + lon_end + "%2C%20" + lat_end + "&profile=driving-car&format=geojson&fbclid=IwAR2oxt23nAl_c_k-8fjc412YBCElx7uAt-h-hTVUZCc3hq5nx5TIk9vBWvg";
         myJson = "";

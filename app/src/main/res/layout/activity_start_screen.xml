@@ -36,7 +36,7 @@
         android:ems="10"
         android:fontFamily="serif-monospace"
         android:gravity="center"
-        android:text="plus prague"
+        android:text="Libeňské podzámčí"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/firstButton"
         app:layout_constraintStart_toStartOf="parent"

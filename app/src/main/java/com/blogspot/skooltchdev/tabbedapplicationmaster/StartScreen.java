@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class StartScreen extends AppCompatActivity {
 
     FirstFragment mapStuff;
     int status;
+    LatLng endPos;
 
 
     private static String stringMod(String in){
@@ -69,6 +72,14 @@ public class StartScreen extends AppCompatActivity {
 //            mapStuff.onMapReady(mapStuff.mGoogleMap);
             ViewPager mapView = (ViewPager) findViewById(R.id.viewpager);
             setupViewMap(mapView);
+            String url = ("https://maps.googleapis.com/maps/api/geocode/json?address="
+                    +firstEditText.getText().toString()+"&key=AIzaSyAh9zhm7S95KqVR2XG7zjsf4tOj1dkm8EI");
+            try {
+                String[] myJson = (new ConnectionTest().readStringFromURL(url).split("location")[1]).split(" : ");
+                endPos = new LatLng(Double.parseDouble(myJson[2].split("\\,")[0]),Double.parseDouble(myJson[3].split(" ")[0]));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             secondBottom.setText(firstEditText.getText().toString());
             secondTop.setText("your location");
         }
